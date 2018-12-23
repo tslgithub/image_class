@@ -9,7 +9,7 @@ your train or test datasets folder should be:
         cat2.jpg
         ...
         cat100.jpg
-    dot
+    dog
         dog.jpg
         dog2.jpg
         ...
@@ -22,7 +22,7 @@ your train or test datasets folder should be:
         cat2.jpg
         ...
         cat100.jpg
-    dot
+    dog
         dog.jpg
         dog2.jpg
         ...
