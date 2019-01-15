@@ -18,12 +18,12 @@ from keras.callbacks import TensorBoard
 
 from MODEL import MODEL,ResnetBuilder
 
-# import tensorflow as tf
-# from keras.backend.tensorflow_backend import set_session
-# from keras.engine import Layer
-# config1 = tf.ConfigProto()
-# config1.gpu_options.per_process_gpu_memory_fraction = 0.8
-# set_session(tf.Session(config=config1))
+import tensorflow as tf
+
+config1 = tf.ConfigProto()
+config1.gpu_options.allow_growth = True
+tf.Session(config=config1)
+
 
 class Train(object):
     def __init__(self,config):
@@ -175,14 +175,14 @@ class Train(object):
                 epochs=self.epochs, verbose=1, max_queue_size=100,
                 callbacks=[early_stop,checkpoint,lr_reduce,tensorboard],
             )
-
-        model.fit(x=X_train,y=y_train,
-                  batch_size=self.batch_size,
-                  validation_data=(X_test,y_test),
-                  epochs=self.epochs,
-                  callbacks=[early_stop,checkpoint,lr_reduce,tensorboard],
-                  shuffle=True,
-                  verbose=1)
+        else:
+            model.fit(x=X_train,y=y_train,
+                      batch_size=self.batch_size,
+                      validation_data=(X_test,y_test),
+                      epochs=self.epochs,
+                      callbacks=[early_stop,checkpoint,lr_reduce,tensorboard],
+                      shuffle=True,
+                      verbose=1)
 
 
     def start_train(self):
