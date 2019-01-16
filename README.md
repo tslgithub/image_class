@@ -11,7 +11,7 @@
 * AlexNet
 * LeNet
 * ZF_Net
-* ZF_Net
+* ResNet18
 * ResNet34
 * ResNet50
 * ResNet_101
