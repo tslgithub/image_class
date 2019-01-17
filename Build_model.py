@@ -77,7 +77,7 @@ class Build_model(object):
                                                  input_shape=(self.normal_size,self.normal_size,self.channles),
                                                  pooling='max',
                                                  classes=self.classes)
-        elif self.model_name == 'DesenNet':
+        elif self.model_name == 'DenseNet':
             depth = 40
             nb_dense_block = 3
             growth_rate = 12
