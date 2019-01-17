@@ -38,9 +38,9 @@ class DefaultConfig():
     """
         # You can choose the following model:
         VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net
-        ResNet18,ResNet34,ResNet50,ResNet_101,ResNet_152,DesenNet
+        ResNet18,ResNet34,ResNet50,ResNet_101,ResNet_152,DenseNet
         """
-    model_name = 'DesenNet'
+    model_name = 'DenseNet'
 
     train_data_path = './dataset/train/'
     # train_data_path = './dataset/test/'
