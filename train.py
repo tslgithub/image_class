@@ -5,7 +5,7 @@ time:2018-12-12
 msg: You can choose the following model to train your image, and just switch in config.py:
     VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net,esNet18,ResNet34,ResNet50,ResNet_101,ResNet_152
 """
-
+from __future__ import print_function
 from config import config
 import numpy as np
 import os,glob,itertools,tqdm,cv2,keras
@@ -15,30 +15,20 @@ from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
 from keras.callbacks import TensorBoard
 
-
-from MODEL import MODEL,ResnetBuilder
-
 import tensorflow as tf
-
 config1 = tf.ConfigProto()
 config1.gpu_options.allow_growth = True
 tf.Session(config=config1)
 
+import sys
+sys.setrecursionlimit(10000)
 
-class Train(object):
+from Build_model import Build_model
+
+class Train(Build_model):
     def __init__(self,config):
-        self.train_data_path = config.train_data_path
-        self.checkpoints = config.checkpoints
-        self.normal_size = config.normal_size
-        self.channles = config.channles
-        self.epochs = config.epochs
-        self.batch_size = config.batch_size
-        self.classes = config.classes
-        self.model_name = config.model_name
-        self.lr = config.lr
-        self.config = config
-        self.default_optimizers = config.default_optimizers
-        self.data_augmentation = config.data_augmentation
+        # super(Build_model,self).__init__(config)
+        Build_model.__init__(self,config)
 
     def get_file(self,path):
         ends = os.listdir(path)[0].split('.')[1]
@@ -51,6 +41,13 @@ class Train(object):
 
         for file in tqdm.tqdm(data_list):
             img = cv2.imread(file,int(self.channles/3))
+            if self.cut:
+                if self.channles ==1:
+                    w,h = img.shape[::-1]
+                else:
+                    _,w,h = img.shape[::-1]
+                img = img[slice(int(h*self.rat),int(h-h*self.rat)),slice( int(w*self.rat),int(w-w*self.rat) )]
+
             img = cv2.resize(img,(self.normal_size,self.normal_size))
             label = file.split('/')[3]
             img = img_to_array(img)
@@ -61,77 +58,6 @@ class Train(object):
         labels = to_categorical(np.array(labels),num_classes=self.classes)
         X_train, X_test, y_train, y_test = train_test_split(images_data,labels)
         return X_train, X_test, y_train, y_test
-
-    def build_model(self):
-        if self.model_name == 'VGG16':
-            model = keras.applications.VGG16(include_top=True,
-                                                   weights=None,
-                                                   input_tensor=None,
-                                                   input_shape=(self.normal_size,self.normal_size,self.channles),
-                                                   pooling='max',
-                                                   classes=self.classes)
-        elif self.model_name == 'VGG19':
-            model = keras.applications.VGG19(include_top=True,
-                                                   weights=None,
-                                                   input_tensor=None,
-                                                   input_shape=(self.normal_size,self.normal_size,self.channles),
-                                                   pooling='max',
-                                                   classes=self.classes)
-
-        elif self.model_name == 'ResNet50':
-            model = keras.applications.ResNet50(include_top=True,
-                                                   weights=None,
-                                                   input_tensor=None,
-                                                   input_shape=(self.normal_size,self.normal_size,self.channles),
-                                                   pooling='max',
-                                                   classes=self.classes)
-        elif self.model_name == 'InceptionV3':
-            model = keras.applications.InceptionV3(include_top=True,
-                                                   weights=None,
-                                                   input_tensor=None,
-                                                   input_shape=(self.normal_size,self.normal_size,self.channles),
-                                                   pooling='max',
-                                                   classes=self.classes)
-
-        elif self.model_name == 'Xception':
-            model = keras.applications.Xception(include_top=True,
-                                                weights=None,
-                                                input_tensor=None,
-                                                input_shape=(self.normal_size,self.normal_size,self.channles),
-                                                pooling='max',
-                                                classes=self.classes)
-        elif self.model_name == 'MobileNet':
-            model = keras.applications.MobileNet(include_top=True,
-                                                 weights=None,
-                                                 input_tensor=None,
-                                                 input_shape=(self.normal_size,self.normal_size,self.channles),
-                                                 pooling='max',
-                                                 classes=self.classes)
-
-        elif self.model_name == 'AlexNet':
-            model = MODEL(self.config).AlexNet()
-        elif self.model_name == 'GoogLeNet':
-            model = MODEL(self.config).GoogLeNet()
-        elif self.model_name == 'LeNet':
-            model = MODEL(self.config).LeNet()
-        elif self.model_name == 'ZF_Net':
-            model = MODEL(self.config).ZF_Net()
-        elif self.model_name == 'ResNet18':
-            model = ResnetBuilder().build_resnet_18(self.config)
-        elif self.model_name == 'ResNet34':
-            model = ResnetBuilder().build_resnet_34(self.config)
-        elif self.model_name == 'ResNet_101':
-            model = ResnetBuilder().build_resnet_101(self.config)
-        elif self.model_name == 'ResNet_152':
-            model = ResnetBuilder().build_resnet_152(self.config)
-
-
-        if self.default_optimizers:
-            adam = keras.optimizers.Adam(lr=self.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0)
-            model.compile(loss="categorical_crossentropy", optimizer=adam, metrics=["accuracy"])  # compile之后才会更新权重和模型
-        else:
-            model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
-        return model
 
     def train(self,X_train, X_test, y_train, y_test,model):
         tensorboard=TensorBoard(log_dir=self.checkpoints)
@@ -144,7 +70,7 @@ class Train(object):
                                                       cooldown=0)
         early_stop = keras.callbacks.EarlyStopping(monitor='val_loss',
                                                    min_delta=0,
-                                                   patience=10,
+                                                   patience=20,
                                                    verbose=1,
                                                    mode='auto')
         checkpoint = keras.callbacks.ModelCheckpoint(self.checkpoints+self.model_name+'.h5',
@@ -187,7 +113,7 @@ class Train(object):
 
     def start_train(self):
         X_train, X_test, y_train, y_test=self.load_data()
-        model = self.build_model()
+        model = Build_model(config).build_model()
         self.train(X_train, X_test, y_train, y_test,model)
 
 def main():
