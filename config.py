@@ -38,11 +38,12 @@ class DefaultConfig():
     """
         # You can choose the following model:
         VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net
-        ResNet18,ResNet34,ResNet50,ResNet_101,ResNet_152
+        ResNet18,ResNet34,ResNet50,ResNet_101,ResNet_152,DesenNet
         """
-    model_name = 'ResNet50'
+    model_name = 'DesenNet'
 
     train_data_path = './dataset/train/'
+    # train_data_path = './dataset/test/'
     test_data_path = './dataset/test/'
     checkpoints = './checkpoints/'
     channles = 1
@@ -51,15 +52,19 @@ class DefaultConfig():
         normal_size = 75
     elif model_name == 'Xception':
         normal_size = 71
+    elif model_name == 'DesenNet':
+        normal_size = 128
     else:
         normal_size = 64
 
     epochs = 100
-    batch_size = 32
+    batch_size = 16
     data_augmentation = True
     classes = 3
-    lr = 0.0001
+    lr = 0.1
     default_optimizers = False
 
+    cut = True
+    rat = 0.1#if cut,img[slice(h*self.rat,h-h*self.rat),slice(w*self.rat,w-w*self.rat)]
 
 config = DefaultConfig()
