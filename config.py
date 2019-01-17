@@ -52,7 +52,7 @@ class DefaultConfig():
         normal_size = 75
     elif model_name == 'Xception':
         normal_size = 71
-    elif model_name == 'DesenNet':
+    elif model_name == 'DenseNet':
         normal_size = 128
     else:
         normal_size = 64
