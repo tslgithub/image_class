@@ -1,4 +1,4 @@
-# image classification with deep learning model： VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、ResNet18、ResNet34、ResNet50、ResNet_101、ResNet_152
+# image classification with deep learning model： VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、ResNet18、ResNet34、ResNet50、ResNet_101、ResNet_152、DenseNet
 
 ## the project apply the following models:
 
@@ -16,6 +16,7 @@
 * ResNet50
 * ResNet_101
 * ResNet_152
+* DenseNet
 
 
 
