@@ -100,13 +100,13 @@ class Build_model(object):
         elif self.model_name == 'ZF_Net':
             model = MODEL(self.config).ZF_Net()
         elif self.model_name == 'ResNet18':
-            model = ResnetBuilder().build_resnet_18(self.config)
+            model = ResnetBuilder().build_resnet18(self.config)
         elif self.model_name == 'ResNet34':
-            model = ResnetBuilder().build_resnet_34(self.config)
-        elif self.model_name == 'ResNet_101':
-            model = ResnetBuilder().build_resnet_101(self.config)
-        elif self.model_name == 'ResNet_152':
-            model = ResnetBuilder().build_resnet_152(self.config)
+            model = ResnetBuilder().build_resnet34(self.config)
+        elif self.model_name == 'ResNet101':
+            model = ResnetBuilder().build_resnet101(self.config)
+        elif self.model_name == 'ResNet152':
+            model = ResnetBuilder().build_resnet152(self.config)
 
         if self.default_optimizers:
             adam = keras.optimizers.Adam(lr=self.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0)
