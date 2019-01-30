@@ -33,14 +33,14 @@ msg: You can choose the following model to train your image, and just switch in 
         dog100.jpg
     ...
 """
-
+import sys
 class DefaultConfig():
     """
         # You can choose the following model:
         VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net
-        ResNet18,ResNet34,ResNet50,ResNet_101,ResNet_152,DenseNet
+        ResNet18,ResNet34,ResNet50,ResNet101,ResNet152,DenseNet
         """
-    model_name = 'DenseNet'
+    model_name = sys.argv[1]
 
     train_data_path = './dataset/train/'
     # train_data_path = './dataset/test/'
@@ -60,11 +60,11 @@ class DefaultConfig():
     epochs = 100
     batch_size = 16
     data_augmentation = True
-    classes = 3
-    lr = 0.1
+    classes = 4
+    lr = 0.01
     default_optimizers = False
 
-    cut = True
+    cut = False
     rat = 0.1#if cut,img[slice(h*self.rat,h-h*self.rat),slice(w*self.rat,w-w*self.rat)]
 
 config = DefaultConfig()
