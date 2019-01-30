@@ -24,7 +24,7 @@ author:tslgithub
 email:mymailwith163@163.com
 time:2018-12-12
 msg: You can choose the following model to train your image, and just switch in config.py:
-    VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net,esNet18,ResNet34,ResNet50,ResNet_101,ResNet_152
+    VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net,esNet18,ResNet34,ResNet50,ResNet101,ResNet152
 """
 
 class MODEL(object):
@@ -152,24 +152,24 @@ class ResnetBuilder(object):
         return model
 
     # @staticmethod
-    def build_resnet_18(self,params):
+    def build_resnet18(self,params):
 
         return self.build(params, self.basic_block, [2, 2, 2, 2])
 
     # @staticmethod
-    def build_resnet_34(self,params):
+    def build_resnet34(self,params):
         return self.build(params, self.basic_block, [3, 4, 6, 3])
 
     # @staticmethod
-    def build_resnet_50(self,params):
+    def build_resnet50(self,params):
         return self.build(params, self.bottleneck, [3, 4, 6, 3])
 
     # @staticmethod
-    def build_resnet_101(self,params):
+    def build_resnet101(self,params):
         return self.build(params, self.bottleneck, [3, 4, 23, 3])
 
     # @staticmethod
-    def build_resnet_152(self,params):
+    def build_resnet152(self,params):
         return self.build(params, self.bottleneck, [3, 8, 36, 3])
 
     def _bn_relu(self,input):
