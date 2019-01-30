@@ -3,43 +3,11 @@ author:tslgithub
 email:mymailwith163@163.com
 time:2018-12-12
 msg: You can choose the following model to train your image, and just switch in config.py:
-    VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZFNet,ResNet18,ResNet34,ResNet50,ResNet101,ResNet152
+    VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net,ResNet18,ResNet34,ResNet50,ResNet101,ResNet152,DenseNet
 """
 
-"""
-/dataset/train/
-    cat
-        cat.jpg
-        cat2.jpg
-        ...
-        cat100.jpg
-    dot
-        dog.jpg
-        dog2.jpg
-        ...
-        dog100.jpg
-    ...
-
-/dataset/test/
-    cat
-        cat.jpg
-        cat2.jpg
-        ...
-        cat100.jpg
-    dot
-        dog.jpg
-        dog2.jpg
-        ...
-        dog100.jpg
-    ...
-"""
 import sys
 class DefaultConfig():
-    """
-        # You can choose the following model:
-        VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net
-        ResNet18,ResNet34,ResNet50,ResNet101,ResNet152,DenseNet
-        """
     model_name = sys.argv[1]
 
     train_data_path = './dataset/train/'
@@ -57,7 +25,7 @@ class DefaultConfig():
     else:
         normal_size = 64
 
-    epochs = 100
+    epochs = 200
     batch_size = 16
     data_augmentation = True
     classes = 4
