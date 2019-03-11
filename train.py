@@ -9,7 +9,7 @@ from __future__ import print_function
 from config import config
 import numpy as np
 import os,glob,itertools,tqdm,cv2,keras
-
+import random
 from keras.preprocessing.image import img_to_array,ImageDataGenerator
 from keras.utils import to_categorical
 from sklearn.model_selection import train_test_split
@@ -36,7 +36,8 @@ class Train(Build_model):
 
     def load_data(self):
         categories = list(map(self.get_file, list(map(lambda x: self.train_data_path + x, os.listdir(self.train_data_path)))))
-        data_list = itertools.chain.from_iterable(categories)
+        data_list = list(itertools.chain.from_iterable(categories))
+        random.shuffle(data_list)
         images_data ,labels= [],[]
 
         for file in tqdm.tqdm(data_list):
