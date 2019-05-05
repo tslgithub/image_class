@@ -45,7 +45,7 @@ class PREDICT(Build_model):
          
             else:
                 j+=1
-        print('error number: ', i, '\ntotal: ', i + j, '\naccuacy is: ', 1.0 - i / (i + j))
+        print('error number: ', i, '\ntotal: ', i + j, '\naccuacy is: ', 1.0 - i / (len(data_list))  )
         print('error: ', ','.join(list(map(lambda x: str(x), tmp))))
         print('Done')
 
