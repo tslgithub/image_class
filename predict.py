@@ -42,7 +42,7 @@ class PREDICT(Build_model):
                 print('wrong label :_____________________________________________wrong ', label)
                 i+=1
                 tmp.append(label)
-                i+=1
+         
             else:
                 j+=1
         print('error number: ', i, '\ntotal: ', i + j, '\naccuacy is: ', 1.0 - i / (i + j))
