@@ -116,9 +116,9 @@ __"testing data set folder is:"__
 my environment is based on __ubuntu16、cuda8、tensorflow_gpu1.4__, all package needed can be installed with __'pip3 install package_name'__, and you can test which package is missed by run __'python train.py'__,then pip install the missed package
 
 # train and predict your model
-train model: python train.py  model_name
-predict model: python predict.py model_name classes_name
-(Atttention:classes_name should be 0,1,2,3,and so on)
+__train model: python train.py  model_name
+__predict model: python predict.py model_name classes_name
+__(Atttention:classes_name should be 0,1,2,3,and so on)
 
 ### Any Questions???
 Author email: mymailwith163@163.com
