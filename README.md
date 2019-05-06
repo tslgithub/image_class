@@ -117,8 +117,8 @@ my environment is based on __ubuntu16、cuda8、tensorflow_gpu1.4__, all package
 
 # train and predict your model
 train model: python train.py  model_name
-
 predict model: python predict.py model_name classes_name
+(Atttention:classes_name should be 0,1,2,3,and so on)
 
 ### Any Questions???
 Author email: mymailwith163@163.com
