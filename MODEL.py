@@ -1,8 +1,10 @@
 from __future__ import division
-from keras.layers import Flatten
+from keras.layers import Flatten,BatchNormalization
+
 from keras.layers.convolutional import Conv2D
 from keras.layers.merge import add
 from keras.models import Sequential
+
 from keras.layers import Input, merge, ZeroPadding2D
 from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.convolutional import Convolution2D
@@ -12,6 +14,9 @@ from keras.layers.normalization import BatchNormalization
 import six
 from keras.regularizers import l2
 from keras.models import Model
+
+from keras import backend as K
+K.set_image_dim_ordering('tf')
 
 try:
     from keras import initializations
@@ -24,13 +29,89 @@ author:tslgithub
 email:mymailwith163@163.com
 time:2018-12-12
 msg: You can choose the following model to train your image, and just switch in config.py:
-    VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net,esNet18,ResNet34,ResNet50,ResNet101,ResNet152
+    VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net,ResNet18,ResNet34,ResNet50,ResNet101,ResNet152,DenseNet
 """
 
 class MODEL(object):
 
     def __init__(self,config):
         self.config = config
+
+    def mnist_net(self):
+        model = Sequential()
+        input_shape = (self.config.normal_size, self.config.normal_size, self.config.channles)
+        model.add(Conv2D(96,(3,3),input_shape=input_shape,padding='same',activation='relu',kernel_initializer='uniform'))
+        model.add(Conv2D(128,(3,3),padding='same',activation='relu'))
+        model.add(Conv2D(128,(1,1),padding='same',activation='relu'))
+        model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+        model.add(Conv2D(256,(3,3),padding='same',activation='relu'))
+        model.add(Conv2D(256,(1,1),padding='same',activation='relu'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
+        model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
+        model.add(Conv2D(256, (1, 1), padding='same', activation='relu'))
+        model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+        model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
+        model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
+        model.add(Conv2D(256, (1, 1), padding='same', activation='relu'))
+        # model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+
+        model.add(Flatten())
+        model.add(Dense(4096,activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Dense(2048, activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Dense(self.config.classes,activation='softmax'))
+        return model
+
+    def input_shape_define(self):
+        return  (self.config.normal_size, self.config.normal_size, self.config.channles)
+
+    def covn_block(self,model,kenal_number,kenal_size,padding,activation):
+        #strides=(1, 1), default
+        #padding='valid', default
+        model.add(Conv2D(kenal_number,kenal_size,padding=padding,activation=activation))
+        return model
+
+    def max_pooling_type(self,model,kenal_size,strides):
+        model.add(MaxPooling2D(pool_size=kenal_size,strides=strides))
+        return model
+
+    #VGG16
+    def VGG16_TSL(self):
+        model = Sequential()
+        # input_shape = self.input_shape_define()
+        input_shape = (self.config.normal_size, self.config.normal_size, self.config.channles)
+        model.add(Conv2D(64,kernel_size=(3,3),input_shape=input_shape,padding='same',activation='relu'))
+        model.add(Conv2D(64,kernel_size=(3,3),padding='same',activation='relu'))
+
+        # model = self.covn_block(model,64,(3,3),'same','relu')  #(W − F + 2P )/S+1
+
+        model = self.max_pooling_type(model,kenal_size=(2,2),strides=(2,2))
+        for i in range(2):
+            model = self.covn_block(model, kenal_number=128, kenal_size=(3, 3), padding='same', activation='relu')
+
+        model = self.max_pooling_type(model,kenal_size = (2,2),strides=(2,2))
+        for i in range(3):
+            model = self.covn_block(model,kenal_number=128,  kenal_size=(3,3),  padding='same',activation='relu')
+
+        model = self.max_pooling_type(model,kenal_size=(2,2),strides=(2,2))
+        for i in range(3):
+            model = self.covn_block(model,kenal_number=512,kenal_size=(3,3),padding='same',activation='relu')
+
+        model = self.max_pooling_type(model,kenal_size=(2,2),strides=(2,2))
+        for i in range(3):
+            model = self.covn_block(model,kenal_number=512,kenal_size=(3,3),padding='same',activation='relu')
+
+        model.add(Flatten())
+        model.add(Dense(4096,activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Dense(1024,activation='relu'))
+        model.add(Dropout(0.5))
+        model.add(Dense(self.config.classes,activation='softmax'))
+        return model
+
 
     # AlexNet
     def AlexNet(self):
@@ -52,7 +133,6 @@ class MODEL(object):
         model.add(Dropout(0.5))
         model.add(Dense(self.config.classes, activation='softmax'))
         # model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
-
         return model
 
     #LeNet
@@ -153,7 +233,6 @@ class ResnetBuilder(object):
 
     # @staticmethod
     def build_resnet18(self,params):
-
         return self.build(params, self.basic_block, [2, 2, 2, 2])
 
     # @staticmethod
