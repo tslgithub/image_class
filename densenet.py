@@ -9,6 +9,9 @@ from __future__ import division
 
 import warnings
 
+import keras
+# from keras_applications import vgg16
+
 from keras.models import Model
 from keras.layers.core import Dense, Dropout, Activation, Reshape
 from keras.layers.convolutional import Conv2D, Conv2DTranspose, UpSampling2D
@@ -21,7 +24,9 @@ from keras.regularizers import l2
 from keras.utils.layer_utils import convert_all_kernels_in_model, convert_dense_weights_data_format
 from keras.utils.data_utils import get_file
 from keras.engine.topology import get_source_inputs
-from keras_applications.imagenet_utils import _obtain_input_shape
+# from keras_applications.imagenet_utils import _obtain_input_shape
+from keras import applications
+# from applications.imagenet_utils import _obtain_input_shape
 from keras_applications.imagenet_utils import decode_predictions
 import keras.backend as K
 
