@@ -1,0 +1,6 @@
+numpy
+tqdm
+opencv-python
+keras==2.0.8
+tensorflow-gpu==1.4
+scikit-learn
