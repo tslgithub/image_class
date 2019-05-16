@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
+
 # author:"tsl"
 # email:"mymailwith163@163.com"
 # datetime:19-1-17 下午3:07
@@ -12,7 +13,7 @@ import sys
 sys.setrecursionlimit(10000)
 
 from keras import backend as K
-import densenet
+# import densenet   #取消densenet模型
 
 class Build_model(object):
     def __init__(self,config):
@@ -31,16 +32,17 @@ class Build_model(object):
         self.rat = config.rat
         self.cut = config.cut
 
+    def model_confirm(self,choosed_model):
 
-    def build_model(self):
-        if self.model_name == 'VGG16':
+
+        if choosed_model == 'VGG16':
             model = keras.applications.VGG16(include_top=True,
                                                    weights=None,
                                                    input_tensor=None,
                                                    input_shape=(self.normal_size,self.normal_size,self.channles),
                                                    pooling='max',
                                                    classes=self.classes)
-        elif self.model_name == 'VGG19':
+        elif choosed_model == 'VGG19':
             model = keras.applications.VGG19(include_top=True,
                                                    weights=None,
                                                    input_tensor=None,
@@ -48,14 +50,14 @@ class Build_model(object):
                                                    pooling='max',
                                                    classes=self.classes)
 
-        elif self.model_name == 'ResNet50':
+        elif choosed_model == 'ResNet50':
             model = keras.applications.ResNet50(include_top=True,
                                                    weights=None,
                                                    input_tensor=None,
                                                    input_shape=(self.normal_size,self.normal_size,self.channles),
                                                    pooling='max',
                                                    classes=self.classes)
-        elif self.model_name == 'InceptionV3':
+        elif choosed_model == 'InceptionV3':
             model = keras.applications.InceptionV3(include_top=True,
                                                    weights=None,
                                                    input_tensor=None,
@@ -63,21 +65,21 @@ class Build_model(object):
                                                    pooling='max',
                                                    classes=self.classes)
 
-        elif self.model_name == 'Xception':
+        elif choosed_model == 'Xception':
             model = keras.applications.Xception(include_top=True,
                                                 weights=None,
                                                 input_tensor=None,
                                                 input_shape=(self.normal_size,self.normal_size,self.channles),
                                                 pooling='max',
                                                 classes=self.classes)
-        elif self.model_name == 'MobileNet':
+        elif choosed_model == 'MobileNet':
             model = keras.applications.MobileNet(include_top=True,
                                                  weights=None,
                                                  input_tensor=None,
                                                  input_shape=(self.normal_size,self.normal_size,self.channles),
                                                  pooling='max',
                                                  classes=self.classes)
-        elif self.model_name == 'DenseNet':
+        elif choosed_model == 'DenseNet':
             depth = 40
             nb_dense_block = 3
             growth_rate = 12
@@ -93,26 +95,39 @@ class Build_model(object):
                                       growth_rate=growth_rate, nb_filter=nb_filter, dropout_rate=dropout_rate,
                                       bottleneck=bottleneck, reduction=reduction, weights=None)
 
-        elif self.model_name == 'AlexNet':
+        elif choosed_model == 'AlexNet':
             model = MODEL(self.config).AlexNet()
-        elif self.model_name == 'LeNet':
+        elif choosed_model == 'LeNet':
             model = MODEL(self.config).LeNet()
-        elif self.model_name == 'ZF_Net':
+        elif choosed_model == 'ZF_Net':
             model = MODEL(self.config).ZF_Net()
-        elif self.model_name == 'ResNet18':
+        elif choosed_model == 'ResNet18':
             model = ResnetBuilder().build_resnet18(self.config)
-        elif self.model_name == 'ResNet34':
+        elif choosed_model == 'ResNet34':
             model = ResnetBuilder().build_resnet34(self.config)
-        elif self.model_name == 'ResNet101':
+        elif choosed_model == 'ResNet101':
             model = ResnetBuilder().build_resnet101(self.config)
-        elif self.model_name == 'ResNet152':
+        elif choosed_model == 'ResNet152':
             model = ResnetBuilder().build_resnet152(self.config)
+        elif choosed_model =='mnist_net':
+            model = MODEL(self.config).mnist_net()
+        elif choosed_model == 'VGG16_TSL':
+            model = MODEL(self.config).VGG16_TSL()
 
+        return model
+
+    def model_compile(self,model):
         if self.default_optimizers:
             adam = keras.optimizers.Adam(lr=self.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0)
             model.compile(loss="categorical_crossentropy", optimizer=adam, metrics=["accuracy"])  # compile之后才会更新权重和模型
         else:
             model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
 
+        return model
+
+    def build_model(self):
+
+        model = self.model_confirm(self.model_name)
+        model = self.model_compile(model)
 
         return model
