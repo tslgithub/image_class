@@ -27,7 +27,7 @@ class PREDICT(Build_model):
 
     def Predict(self):
         model = Build_model(self.config).build_model()
-        model.load_weights(self.checkpoints+self.model_name+'.h5')
+        model.load_weights(self.checkpoints+'/'+self.model_name+'/'+self.model_name+'.h5')
         data_list = list(map(lambda x: cv2.resize(cv2.imread(os.path.join(self.test_data_path,x),int(self.channles/3)),
                                                   (self.normal_size,self.normal_size)),os.listdir(self.test_data_path)     ))
         i,j,tmp = 0,0,[]
