@@ -1,4 +1,4 @@
-# image classification with deep learning model： VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、DenseNet
+#图像分类集成一下模型： VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、DenseNet，在config.py里面选择使用哪种模型，目前本人亲测，残差网络resnet的效果比较好。
 
 ## the project apply the following models:
 
