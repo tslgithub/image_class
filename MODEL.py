@@ -1,4 +1,6 @@
 from __future__ import division
+import keras
+
 from keras.layers import Flatten,BatchNormalization
 
 from keras.layers.convolutional import Conv2D
@@ -37,24 +39,35 @@ class MODEL(object):
     def __init__(self,config):
         self.config = config
 
+    def input_shape_define(self):
+        return  (self.config.normal_size, self.config.normal_size, self.config.channles)
+
+    def covn_block(self,model,kenal_number,kenal_size,padding,activation):
+        model.add(Convolution2D(kenal_number,kenal_size,padding=padding,activation=activation))
+        return model
+
+    def max_pooling_type(self,model,kenal_size,strides):
+        model.add(MaxPooling2D(pool_size=kenal_size,strides=strides))
+        return model
+
     def mnist_net(self):
         model = Sequential()
         input_shape = (self.config.normal_size, self.config.normal_size, self.config.channles)
-        model.add(Conv2D(96,(3,3),input_shape=input_shape,padding='same',activation='relu',kernel_initializer='uniform'))
-        model.add(Conv2D(128,(3,3),padding='same',activation='relu'))
-        model.add(Conv2D(128,(1,1),padding='same',activation='relu'))
+        model.add(Convolution2D(96,(3,3),input_shape=input_shape,padding='same',activation='relu',kernel_initializer='uniform'))
+        model.add(Convolution2D(128,(3,3),padding='same',activation='relu'))
+        model.add(Convolution2D(128,(1,1),padding='same',activation='relu'))
         model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-        model.add(Conv2D(256,(3,3),padding='same',activation='relu'))
-        model.add(Conv2D(256,(1,1),padding='same',activation='relu'))
+        model.add(Convolution2D(256,(3,3),padding='same',activation='relu'))
+        model.add(Convolution2D(256,(1,1),padding='same',activation='relu'))
         model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
-        model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
-        model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
-        model.add(Conv2D(256, (1, 1), padding='same', activation='relu'))
+        model.add(Convolution2D(512, (3, 3), padding='same', activation='relu'))
+        model.add(Convolution2D(512, (3, 3), padding='same', activation='relu'))
+        model.add(Convolution2D(256, (1, 1), padding='same', activation='relu'))
         model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
-        model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
-        model.add(Conv2D(512, (3, 3), padding='same', activation='relu'))
-        model.add(Conv2D(256, (1, 1), padding='same', activation='relu'))
+        model.add(Convolution2D(512, (3, 3), padding='same', activation='relu'))
+        model.add(Convolution2D(512, (3, 3), padding='same', activation='relu'))
+        model.add(Convolution2D(256, (1, 1), padding='same', activation='relu'))
         # model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
         model.add(Flatten())
@@ -65,29 +78,12 @@ class MODEL(object):
         model.add(Dense(self.config.classes,activation='softmax'))
         return model
 
-    def input_shape_define(self):
-        return  (self.config.normal_size, self.config.normal_size, self.config.channles)
-
-    def covn_block(self,model,kenal_number,kenal_size,padding,activation):
-        #strides=(1, 1), default
-        #padding='valid', default
-        model.add(Conv2D(kenal_number,kenal_size,padding=padding,activation=activation))
-        return model
-
-    def max_pooling_type(self,model,kenal_size,strides):
-        model.add(MaxPooling2D(pool_size=kenal_size,strides=strides))
-        return model
-
     #VGG16
-    def VGG16_TSL(self):
+    def TSL16(self):
         model = Sequential()
-        # input_shape = self.input_shape_define()
         input_shape = (self.config.normal_size, self.config.normal_size, self.config.channles)
-        model.add(Conv2D(64,kernel_size=(3,3),input_shape=input_shape,padding='same',activation='relu'))
-        model.add(Conv2D(64,kernel_size=(3,3),padding='same',activation='relu'))
-
-        # model = self.covn_block(model,64,(3,3),'same','relu')  #(W − F + 2P )/S+1
-
+        model.add(Convolution2D(64,kernel_size=(3,3),input_shape=input_shape,padding='same',activation='relu'))
+        model.add(Convolution2D(64,kernel_size=(3,3),padding='same',activation='relu'))
         model = self.max_pooling_type(model,kenal_size=(2,2),strides=(2,2))
         for i in range(2):
             model = self.covn_block(model, kenal_number=128, kenal_size=(3, 3), padding='same', activation='relu')
@@ -118,7 +114,7 @@ class MODEL(object):
         model = Sequential()
         # input_shape = (64,64, self.config.channles)
         input_shape = (self.config.normal_size, self.config.normal_size, self.config.channles)
-        model.add(Convolution2D(96, (11, 11), strides=(4, 4), input_shape=input_shape, padding='valid',activation='relu', kernel_initializer='uniform'))
+        model.add(Convolution2D(96, (11, 11), input_shape=input_shape,strides=(4, 4),  padding='valid',activation='relu', kernel_initializer='uniform'))
         model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))#26*26
         model.add(Convolution2D(256, (5, 5), strides=(1, 1), padding='same', activation='relu', kernel_initializer='uniform'))
         model.add(MaxPooling2D(pool_size=(3, 3), strides=(2, 2)))
@@ -133,6 +129,61 @@ class MODEL(object):
         model.add(Dropout(0.5))
         model.add(Dense(self.config.classes, activation='softmax'))
         # model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+        return model
+
+    def VGG16(self):
+        model = Sequential()
+        input_shape= (self.config.normal_size, self.config.normal_size, self.config.channles)
+        model.add(Convolution2D(64,(3,3),input_shape=input_shape,activation='relu',padding='same'))
+        model.add(Convolution2D(64,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(128,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(128,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Convolution2D(256,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(256,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(256,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Flatten())
+        model.add(Dense(4096,activation='relu'))
+        model.add(Dense(4096,activation='relu'))
+        model.add(Dense(self.config.classes,activation='softmax'))
+        return model
+
+    def VGG19(self):
+        model = Sequential()
+        input_shape= (self.config.normal_size, self.config.normal_size, self.config.channles)
+        model.add(Convolution2D(64,(3,3),input_shape=input_shape,activation='relu',padding='same'))
+        model.add(Convolution2D(64,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(128,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(128,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Convolution2D(256,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(256,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(256,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(256,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
+        model.add(Flatten())
+        model.add(Dense(4096,activation='relu'))
+        model.add(Dense(4096,activation='relu'))
+        model.add(Dense(self.config.classes,activation='softmax'))
         return model
 
     #LeNet
@@ -183,6 +234,39 @@ class MODEL(object):
         model.add(Dense(self.config.classes, activation='softmax'))
         # model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
         return model
+
+    def Xception2(self):
+        model = Sequential()
+        input_shape = (self.config.normal_size, self.config.normal_size, self.config.channles)
+        if self.config.normal_size<71:
+            raise Exception("minSize is 71")
+        model.add(Convolution2D(32, (3, 3),strides=(2, 2),use_bias=False))
+        model.add(BatchNormalization(axis=1))
+        model.add(Activation('relu'))
+        model.add(Convolution2D(64, (3, 3), use_bias=False))
+        model.add(BatchNormalization(axis=1))
+        model.add(Activation('relu'))
+        residual = model.add(Convolution2D(128, (1, 1),
+                             strides=(2, 2),
+                             padding='same',
+                             use_bias=False))
+    #
+        model.add(keras.layers.SeparableConv2D(128, (3, 3),
+                               padding='same',
+                               use_bias=False) )
+        model.add(BatchNormalization(axis=1))
+        model.add(Activation('relu'))
+        model.add(keras.layers.SeparableConv2D(128, (3, 3),
+                                               padding='same',
+                                               use_bias=False))
+        model.add(BatchNormalization(axis=1))
+        model.add(MaxPooling2D((3, 3),
+                            strides=(2, 2),
+                            padding='same',))
+        # model.add()
+        model.add([model, residual])
+
+
 
 #RESNET
 class ResnetBuilder(object):
