@@ -235,39 +235,6 @@ class MODEL(object):
         # model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
         return model
 
-    def Xception2(self):
-        model = Sequential()
-        input_shape = (self.config.normal_size, self.config.normal_size, self.config.channles)
-        if self.config.normal_size<71:
-            raise Exception("minSize is 71")
-        model.add(Convolution2D(32, (3, 3),strides=(2, 2),use_bias=False))
-        model.add(BatchNormalization(axis=1))
-        model.add(Activation('relu'))
-        model.add(Convolution2D(64, (3, 3), use_bias=False))
-        model.add(BatchNormalization(axis=1))
-        model.add(Activation('relu'))
-        residual = model.add(Convolution2D(128, (1, 1),
-                             strides=(2, 2),
-                             padding='same',
-                             use_bias=False))
-    #
-        model.add(keras.layers.SeparableConv2D(128, (3, 3),
-                               padding='same',
-                               use_bias=False) )
-        model.add(BatchNormalization(axis=1))
-        model.add(Activation('relu'))
-        model.add(keras.layers.SeparableConv2D(128, (3, 3),
-                                               padding='same',
-                                               use_bias=False))
-        model.add(BatchNormalization(axis=1))
-        model.add(MaxPooling2D((3, 3),
-                            strides=(2, 2),
-                            padding='same',))
-        # model.add()
-        model.add([model, residual])
-
-
-
 #RESNET
 class ResnetBuilder(object):
     # @staticmethod
