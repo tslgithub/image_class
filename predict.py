@@ -26,7 +26,8 @@ from Build_model import Build_model
 class PREDICT(Build_model):
     def __init__(self,config):
         Build_model.__init__(self,config)
-        self.test_data_path = config.test_data_path+sys.argv[1]
+        self.test_data_path = os.path.join(config.test_data_path,sys.argv[1])
+        # self.test_data_path = os.path.join(config.test_data_path,"1")
 
     def Predict(self):
         model = Build_model(self.config).build_model()
