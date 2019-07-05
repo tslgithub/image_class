@@ -14,7 +14,7 @@ class DefaultConfig():
     model_name = 'VGG19'#sys.argv[1]
 
     # train_data_path = './dataset/train/'
-    train_data_path = '/home/tsl/PycharmProjects/img_class//dataset/train/'# must be end with "/" ,for examples "/home/tsl/PycharmProjects/img_class/"
+    train_data_path = '/home/tsl/PycharmProjects/img_class/dataset/train/'
     test_data_path = './dataset/test/'
     checkpoints = './checkpoints/'
     channles = 1
