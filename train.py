@@ -35,20 +35,21 @@ from Build_model import Build_model
 
 class Train(Build_model):
     def __init__(self,config):
-        # super(Build_model,self).__init__(config)
         Build_model.__init__(self,config)
 
     def get_file(self,path):
         ends = os.listdir(path)[0].split('.')[-1]
-        img_list = glob.glob(path + '/*.'+ends)
-
+        img_list = glob.glob(os.path.join(path , '*.'+ends))
         return img_list
 
     def load_data(self):
-        categories = list(map(self.get_file, list(map(lambda x: self.train_data_path + x, os.listdir(self.train_data_path)))))
+
+        categories = list(map(self.get_file, list(map(lambda x: os.path.join(self.train_data_path, x), os.listdir(self.train_data_path)))))
         data_list = list(itertools.chain.from_iterable(categories))
         shuffle(data_list)
         images_data ,labels= [],[]
+
+        with_platform = os.name
 
         for file in tqdm.tqdm(data_list):
             if self.channles == 3:
@@ -62,12 +63,14 @@ class Train(Build_model):
                 # img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)[-1]
                 w, h = img.shape[::-1]
 
-
             if self.cut:
                 img = img[slice(int(h*self.rat),int(h-h*self.rat)),slice( int(w*self.rat),int(w-w*self.rat) )]
-
             img = cv2.resize(img,(self.normal_size,self.normal_size))
-            label = file.split('/')[3]
+            if with_platform == 'posix':
+                label = file.split('/')[-2]
+            elif with_platform=='nt':
+                label = file.split('\\')[-2]
+
             print('img:',file,' has label:',label)
             img = img_to_array(img)
             images_data.append(img)
@@ -84,7 +87,7 @@ class Train(Build_model):
         return path
 
     def train(self,X_train, X_test, y_train, y_test,model):
-        tensorboard=TensorBoard(log_dir=self.mkdir(self.checkpoints+self.model_name))
+        tensorboard=TensorBoard(log_dir=self.mkdir(os.path.join(self.checkpoints,self.model_name) ))
 
         lr_reduce = keras.callbacks.ReduceLROnPlateau(monitor=config.monitor,
                                                       factor=0.1,
@@ -97,7 +100,7 @@ class Train(Build_model):
                                                    patience=config.early_stop_patience,
                                                    verbose=1,
                                                    mode='auto')
-        checkpoint = keras.callbacks.ModelCheckpoint(self.mkdir(self.checkpoints+self.model_name)+'/'+self.model_name+'.h5',
+        checkpoint = keras.callbacks.ModelCheckpoint(os.path.join(self.mkdir( os.path.join(self.checkpoints,self.model_name) ),self.model_name+'.h5'),
                                                      monitor=config.monitor,
                                                      verbose=1,
                                                      save_best_only=True,
@@ -141,8 +144,10 @@ class Train(Build_model):
         self.train(X_train, X_test, y_train, y_test,model)
 
     def remove_logdir(self):
-        print(os.system('ls checkpoints/'+self.model_name+'/'+'events*'))
-        os.system('rm checkpoints/'+self.model_name+'/'+'events*')
+        if os.name == 'posix':
+            print(os.system('ls checkpoints/'+self.model_name+'/'+'events*'))
+            os.system('rm checkpoints/'+self.model_name+'/'+'events*')
+
 
 def main():
     train = Train(config)
