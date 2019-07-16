@@ -50,7 +50,7 @@ __"testing data set folder is:"__
 
 
 ## environment
-My environment is based on 
+My environment is based on ubuntu16, and not test in windows
 * __ubuntu16__ 
 * __cuda8__ (__cuda9.0__)
 * __tensorflow_gpu1.4__ (__tensorflow_gpu1.10__ )
