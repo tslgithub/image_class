@@ -17,6 +17,8 @@
 * ResNet101
 * ResNet152
 * DenseNet(dismissed this time)
+* mnist_net(new network, designed  by author)
+* TSL16(new network, designed  by author)
 
 
 ## your train or test datasets folder should be:
