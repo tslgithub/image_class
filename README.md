@@ -1,4 +1,4 @@
-# 图像分类集成以下模型： VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、ResNet18、ResNet34、ResNet50、ResNet101、ResNet152，(mnist_net,TSL16)等网络，在config.py里面选择使用哪种模型，目前本人亲测，在本人的应用场景中，残差网络resnet的效果比较好。
+# 图像分类集成以下模型：ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、 VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、DenseNet，在config.py里面选择使用哪种模型，目前本人亲测，残差网络resnet的效果比较好。
 
 ## the project apply the following models:
 
@@ -17,40 +17,37 @@
 * ResNet101
 * ResNet152
 * DenseNet(dismissed this time)
-* mnist_net(new network, designed  by author)
-* TSL16(new network, designed  by author)
 
 
 ## your train or test datasets folder should be:
 
 
-#### 0,1,2,3 is classes name or folder name,whose __path is__,and must start with '0'
+####  classes name contained in folder name , whose __path is__,and must start with '0'
 __"training data set folder is:"__
 
-/dataset/train/0/cat*.jpg,
+/path/classes1/cat*.jpg,
 
-/dataset/train/1/cat*.jpg,
+/path/classes2/dog*.jpg,
 
-/dataset/train/2/cat*.jpg,
+/path/classes3/people*.jpg,
 
-/dataset/train/3/cat*.jpg,
+/path/classes4/*.jpg,
 
 __"testing data set folder is:"__
 
-/dataset/test/0/cat*.jpg,
+/path/classes1/cat*.jpg,
 
-/dataset/test/1/cat*.jpg,
+/path/classes2/dog*.jpg,
 
-/dataset/test/2/cat*.jpg,
+/path/classes3/people*.jpg,
 
-/dataset/test/3/cat*.jpg,
+/path/classes4/*.jpg,
 
 * Attentions ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
-* classes name ‘0,1,2,3’ or folder name must be number,and __must start with '0'__
-
+* classes name must be contained in folder name 
 
 ## environment
-My environment is based on ubuntu16, and not test in windows
+My environment is based on 
 * __ubuntu16__ 
 * __cuda8__ (__cuda9.0__)
 * __tensorflow_gpu1.4__ (__tensorflow_gpu1.10__ )
@@ -67,12 +64,13 @@ My environment is based on ubuntu16, and not test in windows
 * pip3 install opencv-python
 * pip3 install scikit-learn
 
+# train or  dataset prepare
+* python3 mk_class_idx.py
+
 # train and predict your model
-* train model: python train.py  model_name
+* train model: python train.py
 
 * predict model: python predict.py model_name classes_name
-
-* (Atttention:classes_name should be 0,1,2,3,........)
 
 ### Any Questions???
 Author email: mymailwith163@163.com
