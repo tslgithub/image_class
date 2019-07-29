@@ -10,7 +10,7 @@ msg: You can choose the following model to train your image, and just switch in 
 
 import sys
 class DefaultConfig():
-    model_name = 'VGG19'#sys.argv[1]
+    model_name = 'ResNet18'#sys.argv[1]
     train_data_path = '/home/tsl/PycharmProjects/img_class/dataset/train/'
     test_data_path = './dataset/test/'
     checkpoints = './checkpoints/'
