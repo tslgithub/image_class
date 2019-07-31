@@ -23,7 +23,7 @@
 
 
 ####  classes name contained in folder name , whose __path is__,and must start with '0'
-__"training data set folder is:"__
+__"train and test data set folder is:"__
 
 /path/classes1/cat*.jpg,
 
@@ -33,15 +33,6 @@ __"training data set folder is:"__
 
 /path/classes4/*.jpg,
 
-__"testing data set folder is:"__
-
-/path/classes1/cat*.jpg,
-
-/path/classes2/dog*.jpg,
-
-/path/classes3/people*.jpg,
-
-/path/classes4/*.jpg,
 
 * Attentions ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
 * classes name must be contained in folder name 
@@ -64,12 +55,11 @@ My environment is based on
 * pip3 install opencv-python
 * pip3 install scikit-learn
 
-# train or  dataset prepare
+# step1: train or test dataset prepare
 * python3 mk_class_idx.py
-
-# train and predict your model
+# step2: train your model
 * train model: python train.py
-
+# step3: predict with model 
 * predict model: python predict.py model_name classes_name
 
 ### Any Questions???
