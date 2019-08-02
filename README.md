@@ -22,7 +22,7 @@
 ## your train or test datasets folder should be:
 
 
-####  classes name contained in folder name , whose __path is__,and must start with '0'
+####  classes name contained in folder name
 __"train and test data set folder is:"__
 
 /path/classes1/cat*.jpg,
