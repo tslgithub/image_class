@@ -60,7 +60,7 @@ My environment is based on
 # step2: train your model
 * python train.py
 # step3: predict with model 
-* python predict.py  classes_name
+* python3 predict.py  classes_name
 
 ### Any Questions???
 Author email: mymailwith163@163.com
