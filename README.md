@@ -58,9 +58,9 @@ My environment is based on
 # step1: train or test dataset prepare
 * python3 mk_class_idx.py
 # step2: train your model
-* train model: python train.py
+* python train.py
 # step3: predict with model 
-* predict model: python predict.py model_name classes_name
+* python predict.py  classes_name
 
 ### Any Questions???
 Author email: mymailwith163@163.com
