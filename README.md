@@ -56,11 +56,11 @@ My environment is based on
 * pip3 install scikit-learn
 
 # step1: train or test dataset prepare
-* python3 mk_class_idx.py
+* __python3 mk_class_idx.py__
 # step2: train your model
-* python3 train.py
+* __python3 train.py__
 # step3: predict with model 
-* python3 predict.py  classes_name
+* __python3 predict.py  classes_name__
 
 ### Any Questions???
 Author email: mymailwith163@163.com
