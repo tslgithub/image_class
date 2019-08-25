@@ -1,0 +1,15 @@
+python3 train.py ResNet18
+python3 train.py VGG16
+python3 train.py VGG19
+python3 train.py InceptionV3
+python3 train.py Xception
+python3 train.py MobileNet
+python3 train.py AlexNet
+python3 train.py LeNet
+python3 train.py ZF_Net
+python3 train.py ResNet34
+python3 train.py ResNet50
+python3 train.py ResNet101
+python3 train.py ResNet152
+python3 train.py mnist_net
+python3 train.py TSL16
