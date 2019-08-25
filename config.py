@@ -3,34 +3,33 @@
 author:tslgithub
 email:mymailwith163@163.com
 time:2018-12-12
-msg: You can choose the following model to train your image, and just switch in config.py:
+msg: You can choose the following model to train your image, and just choose in config.py:
     VGG16,VGG19,InceptionV3,Xception,MobileNet,AlexNet,LeNet,ZF_Net,
     ResNet18,ResNet34,ResNet50,ResNet101,ResNet152,mnist_net,TSL16
 """
 
 import sys
 class DefaultConfig():
-    model_name = 'ResNet18'#sys.argv[1]
-    train_data_path = '/home/tsl/PycharmProjects/img_class/dataset/train/'
-    test_data_path = './dataset/test/'
+    # model_name = 'ResNet34'
+    model_name = sys.argv[1]
+    train_data_path = '/media/tsl/DataBackup/TrafficSignalDataset/training/'
+    test_data_path = '/media/tsl/DataBackup/TrafficSignalDataset/testing/'
     checkpoints = './checkpoints/'
 
     if model_name == 'InceptionV3':
         normal_size = 75#minSize
     elif model_name == 'Xception':
         normal_size = 71#minSize
-
     else:
-        normal_size = 96
+        normal_size = 64
+    # normal_size = 48
+    epochs = 30
+    batch_size = 8
+    data_augmentation = False
+    classes = 49
+    channles = 3 # or 3 or 1
 
-    epochs = 50
-    batch_size = 16
-    data_augmentation = True
-    classes = 3
-    channles = 1
-
-    lr = 0.01
-    default_optimizers = False
+    lr = 0.00001
     monitor = 'val_loss'
     lr_reduce_patience = 5 #需要降低学习率的训练步长
     early_stop_patience = 10  #提前终止训练的步长
