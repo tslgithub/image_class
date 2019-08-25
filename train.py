@@ -57,7 +57,7 @@ class Train(Build_model):
                 # img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
                 # img = cv2.threshold(img,128,255,cv2.THRESH_BINARY)[-1]
                 _, w, h = img.shape[::-1]
-            else:
+            elif self.channles == 1:
                 # img=cv2.threshold(cv2.imread(file,0), 128, 255, cv2.THRESH_BINARY)[-1]
                 img = cv2.imread(file,0)
                 # img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY)[-1]
@@ -71,7 +71,7 @@ class Train(Build_model):
             elif with_platform=='nt':
                 label = file.split('\\')[-2]
 
-            print('img:',file,' has label:',label)
+            # print('img:',file,' has label:',label)
             img = img_to_array(img)
             images_data.append(img)
             labels.append(label)
@@ -157,8 +157,8 @@ class Train(Build_model):
                 print(os.system('ls checkpoints/'+self.model_name+'/'+'events*'))
                 os.system('rm checkpoints/'+self.model_name+'/'+'events*')
             except:
-                print("r")
-        pass
+                print("GO ON")
+
 
 
 def main():
