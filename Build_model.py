@@ -27,7 +27,7 @@ class Build_model(object):
         self.model_name = config.model_name
         self.lr = config.lr
         self.config = config
-        self.default_optimizers = config.default_optimizers
+        # self.default_optimizers = config.default_optimizers
         self.data_augmentation = config.data_augmentation
         self.rat = config.rat
         self.cut = config.cut
@@ -104,11 +104,9 @@ class Build_model(object):
         return model
 
     def model_compile(self,model):
-        if self.default_optimizers:
-            adam = keras.optimizers.Adam(lr=self.lr, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0)
-            model.compile(loss="categorical_crossentropy", optimizer=adam, metrics=["accuracy"])  # compile之后才会更新权重和模型
-        else:
-            model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+        adam = keras.optimizers.Adam(lr=self.lr)
+        model.compile(loss="categorical_crossentropy", optimizer=adam, metrics=["accuracy"])  # compile之后才会更新权重和模型
+
 
         return model
 
