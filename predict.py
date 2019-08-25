@@ -10,9 +10,9 @@ msg: You can choose the following model to train your image, and just switch in 
 """
 from __future__ import print_function
 from config import config
-import sys
+import sys,copy,shutil
 import cv2
-import os
+import os,time
 from keras.preprocessing.image import img_to_array
 import numpy as np
 
@@ -26,8 +26,8 @@ from Build_model import Build_model
 class PREDICT(Build_model):
     def __init__(self,config):
         Build_model.__init__(self,config)
-        self.test_data_path = os.path.join(config.test_data_path,sys.argv[1])
-        # self.test_data_path = os.path.join(config.test_data_path,"12667905159247769")
+        self.test_data_path = os.path.join(config.test_data_path,sys.argv[2])
+        # self.test_data_path = os.path.join(config.test_data_path,"0")
 
     def classes_id(self):
         with open('train_class_idx.txt','r') as f:
@@ -35,17 +35,32 @@ class PREDICT(Build_model):
             lines = [line.rstrip() for line in lines]
         return lines
 
+    def mkdir(self,path):
+        if os.path.exists(path):
+            return path
+        os.mkdir(path)
+        return path
+
     def Predict(self):
+        start = time.time()
         model = Build_model(self.config).build_model()
         if os.path.join(os.path.join(self.checkpoints,self.model_name),self.model_name+'.h5'):
             print('weights is loaded')
         else:
             print('weights is not exist')
         model.load_weights(os.path.join(os.path.join(self.checkpoints,self.model_name),self.model_name+'.h5'))
-        data_list = list(map(lambda x: cv2.resize(cv2.imread(os.path.join(self.test_data_path,x),int(self.channles/3)),
-                                                  (self.normal_size,self.normal_size)),os.listdir(self.test_data_path)))
+        if(self.channles == 3):
+            data_list = list(
+                map(lambda x: cv2.resize(cv2.imread(os.path.join(self.test_data_path, x)),
+                                         (self.normal_size, self.normal_size)), os.listdir(self.test_data_path)))
+        elif(self.channles == 1):
+            data_list = list(
+                map(lambda x: cv2.resize(cv2.imread(os.path.join(self.test_data_path, x), 0),
+                                         (self.normal_size, self.normal_size)), os.listdir(self.test_data_path)))
+
         i,j,tmp = 0,0,[]
         for img in data_list:
+            imgName = copy.copy(img)
             img = np.array([img_to_array(img)],dtype='float')/255.0
             pred = model.predict(img).tolist()[0]
             # label = pred.index(max(pred))
@@ -53,15 +68,20 @@ class PREDICT(Build_model):
             confidence = max(pred)
             print('predict label     is: ',label)
             print('predict confidect is: ',confidence)
-            # if label != '12667905159247769':
-            if label != sys.argv[1]:
-                print('wrong label :_____________________________________________wrong ', label)
+            # predictPath = self.mkdir("testResult/"+self.mkdir(str(label)))
+            # cv2.imwrite(os.path.join(predictPath,"src.jpg"),imgName)
+            # shutil.copy(self.train_data_path+label+"/0_1.jpg",os.path.join(predictPath,"true.jpg"))
+            # if label != '0':
+            if label != sys.argv[2]:
+                print('____________________wrong label____________________', label)
                 i+=1
                 tmp.append(label)
             else:
                 j+=1
         print('\naccuacy is:%.2f'%((1.0 - i / (len(data_list)))*100),"%")
         print('Done')
+        end = time.time();
+        print("usg time:",end - start)
 
 def main():
     predict = PREDICT(config)
