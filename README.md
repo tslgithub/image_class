@@ -1,4 +1,4 @@
-# 图像分类集成以下模型：ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、 VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、DenseNet，在config.py里面选择使用哪种模型，目前本人亲测，残差网络resnet的效果比较好。
+# 图像分类集成以下模型：ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、DenseNet，在config.py里面选择使用哪种模型，目前本人自己测试得结论：残差网络resnet的效果比较好。
 
 ## the project apply the following models:
 
@@ -19,11 +19,11 @@
 * DenseNet(dismissed this time)
 
 
-## your train or test datasets folder should be:
+##train or test dataset
 
 
 ####  classes name contained in folder name
-__"train and test data set folder is:"__
+__"training or testing dataset folder is:"__
 
 /path/classes1/cat*.jpg,
 
@@ -55,12 +55,15 @@ My environment is based on
 * pip3 install opencv-python
 * pip3 install scikit-learn
 
-# step1: train or test dataset prepare
-* __python3 mk_class_idx.py__
-# step2: train your model
-* __python3 train.py__
-# step3: predict with model 
-* __python3 predict.py  classes_name__
+# train or test  dataset prepare
+* python3 mk_class_idx.py
+
+# train your model
+* train model: python3 train.py modelName
+* or run " __sh trainAll.sh__ " to train all model
+
+# predict your model
+* predict model: python3 predict.py model_name classes_name
 
 ### Any Questions???
 Author email: mymailwith163@163.com
