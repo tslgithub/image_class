@@ -1,4 +1,4 @@
-# 图像分类集成以下模型：ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、DenseNet，在config.py里面选择使用哪种模型.
+# 图像分类集成以下模型：ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、DenseNet、mnist_net、TSL16，在config.py里面选择使用哪种模型.
 
 ## the project apply the following models:
 
