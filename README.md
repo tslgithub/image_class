@@ -1,4 +1,4 @@
-# 图像分类集成以下模型：ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、DenseNet，在config.py里面选择使用哪种模型，目前本人自己测试得结论：残差网络resnet的效果比较好。
+# 图像分类集成以下模型：ResNet18、ResNet34、ResNet50、ResNet101、ResNet152、VGG16、VGG19、InceptionV3、Xception、MobileNet、AlexNet、LeNet、ZF_Net、DenseNet，在config.py里面选择使用哪种模型.
 
 ## the project apply the following models:
 
@@ -17,9 +17,11 @@
 * ResNet101
 * ResNet152
 * DenseNet(dismissed this time)
+* mnist_net
+* TSL16
 
 
-##train or test dataset
+## train or test dataset
 
 
 ####  classes name contained in folder name
@@ -32,6 +34,8 @@ __"training or testing dataset folder is:"__
 /path/classes3/people*.jpg,
 
 /path/classes4/*.jpg,
+
+
 
 
 * Attentions ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
@@ -55,15 +59,22 @@ My environment is based on
 * pip3 install opencv-python
 * pip3 install scikit-learn
 
-# train or test  dataset prepare
+# 1. confirm config.py
+* choose model and change parameter in config.py
+
+# 2. train or test  dataset prepare
 * python3 mk_class_idx.py
 
-# train your model
+# 3. train your model
 * train model: python3 train.py modelName
 * or run " __sh trainAll.sh__ " to train all model
+* take VGG16 as example, run " __tensorboard --logdir=/home/tsl/PycharmProjects/image_class/checkpoints/VGG16__ " to watch training with tensorboard
 
-# predict your model
-* predict model: python3 predict.py model_name classes_name
+# 4. predict your model
+* predict model: python3 predict.py modelName classesName
+
+# 5.result of mnist dataset(number 0~9)
+  ![Image text](https://github.com/tslgithub/image_class/blob/master/resultMNIST.png)
 
 ### Any Questions???
 Author email: mymailwith163@163.com
