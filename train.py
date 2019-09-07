@@ -84,8 +84,7 @@ class Train(Build_model):
                 labels_idx.append(idx)
 
         images_data = np.array(images_data,dtype='float')/255.0
-        # labels = to_categorical(np.array(labels),num_classes=self.classes)
-        labels = to_categorical(np.array(labels_idx),num_classes=self.classes)
+        labels = to_categorical(np.array(labels_idx),num_classes=self.classNumber)
         X_train, X_test, y_train, y_test = train_test_split(images_data,labels)
         return X_train, X_test, y_train, y_test
 
