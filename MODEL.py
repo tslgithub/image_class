@@ -75,7 +75,7 @@ class MODEL(object):
         model.add(Dropout(0.5))
         model.add(Dense(2048, activation='relu'))
         model.add(Dropout(0.5))
-        model.add(Dense(self.config.classes,activation='softmax'))
+        model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
 
     #VGG16
@@ -105,7 +105,7 @@ class MODEL(object):
         model.add(Dropout(0.5))
         model.add(Dense(1024,activation='relu'))
         model.add(Dropout(0.5))
-        model.add(Dense(self.config.classes,activation='softmax'))
+        model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
 
 
@@ -127,7 +127,7 @@ class MODEL(object):
         model.add(Dropout(0.5))
         model.add(Dense(4096, activation='relu'))
         model.add(Dropout(0.5))
-        model.add(Dense(self.config.classes, activation='softmax'))
+        model.add(Dense(self.config.classNumber, activation='softmax'))
         # model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
         return model
 
@@ -154,7 +154,7 @@ class MODEL(object):
         model.add(Flatten())
         model.add(Dense(4096,activation='relu'))
         model.add(Dense(4096,activation='relu'))
-        model.add(Dense(self.config.classes,activation='softmax'))
+        model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
 
     def VGG19(self):
@@ -183,7 +183,7 @@ class MODEL(object):
         model.add(Flatten())
         model.add(Dense(4096,activation='relu'))
         model.add(Dense(4096,activation='relu'))
-        model.add(Dense(self.config.classes,activation='softmax'))
+        model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
 
     #LeNet
@@ -204,7 +204,7 @@ class MODEL(object):
         model.add(Activation("relu"))
 
         # softmax classifier
-        model.add(Dense(self.config.classes))
+        model.add(Dense(self.config.classNumber))
         model.add(Activation("softmax"))
         # model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
         # return the constructed network architecture
@@ -231,7 +231,7 @@ class MODEL(object):
         model.add(Dropout(0.5))
         model.add(Dense(4096, activation='relu'))
         model.add(Dropout(0.5))
-        model.add(Dense(self.config.classes, activation='softmax'))
+        model.add(Dense(self.config.classNumber, activation='softmax'))
         # model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
         return model
 
@@ -252,7 +252,7 @@ class ResnetBuilder(object):
         """
 
         input_shape = (config.normal_size,config.normal_size,config.channles)
-        num_outputs = config.classes
+        num_outputs = config.classNumber
         self._handle_dim_ordering()
         block_fn = self._get_block(block_fn)
 
