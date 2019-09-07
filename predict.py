@@ -26,8 +26,15 @@ from Build_model import Build_model
 class PREDICT(Build_model):
     def __init__(self,config):
         Build_model.__init__(self,config)
-        self.test_data_path = os.path.join(config.test_data_path,sys.argv[2])
-        # self.test_data_path = os.path.join(config.test_data_path,"0")
+
+        try:
+            className = sys.argv[2]
+        except:
+            print("use default className")
+            className = "dog"
+
+        self.className = className
+        self.test_data_path = os.path.join(config.test_data_path,self.className)
 
     def classes_id(self):
         with open('train_class_idx.txt','r') as f:
@@ -60,25 +67,19 @@ class PREDICT(Build_model):
 
         i,j,tmp = 0,0,[]
         for img in data_list:
-            imgName = copy.copy(img)
             img = np.array([img_to_array(img)],dtype='float')/255.0
             pred = model.predict(img).tolist()[0]
-            # label = pred.index(max(pred))
             label = self.classes_id()[pred.index(max(pred))]
             confidence = max(pred)
             print('predict label     is: ',label)
             print('predict confidect is: ',confidence)
-            # predictPath = self.mkdir("testResult/"+self.mkdir(str(label)))
-            # cv2.imwrite(os.path.join(predictPath,"src.jpg"),imgName)
-            # shutil.copy(self.train_data_path+label+"/0_1.jpg",os.path.join(predictPath,"true.jpg"))
-            # if label != '0':
-            if label != sys.argv[2]:
+
+            if label != self.className:
                 print('____________________wrong label____________________', label)
                 i+=1
-                tmp.append(label)
             else:
                 j+=1
-        print('\naccuacy is:%.2f'%((1.0 - i / (len(data_list)))*100),"%")
+        print('\naccuacy is:%.2f'%((j/ (len(data_list)))*100.0),"%")
         print('Done')
         end = time.time();
         print("usg time:",end - start)
