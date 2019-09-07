@@ -23,7 +23,7 @@ class Build_model(object):
         self.channles = config.channles
         self.epochs = config.epochs
         self.batch_size = config.batch_size
-        self.classes = config.classes
+        self.classNumber = config.classNumber
         self.model_name = config.model_name
         self.lr = config.lr
         self.config = config
@@ -62,14 +62,14 @@ class Build_model(object):
                                                    input_tensor=None,
                                                    input_shape=(self.normal_size,self.normal_size,self.channles),
                                                    pooling='max',
-                                                   classes=self.classes)
+                                                   classNumber=self.classNumber)
         elif choosed_model == 'InceptionV3':
             model = keras.applications.InceptionV3(include_top=True,
                                                    weights=None,
                                                    input_tensor=None,
                                                    input_shape=(self.normal_size,self.normal_size,self.channles),
                                                    pooling='max',
-                                                   classes=self.classes)
+                                                   classNumber=self.classNumber)
 
         elif choosed_model == 'Xception':
             model = keras.applications.Xception(include_top=True,
@@ -77,14 +77,14 @@ class Build_model(object):
                                                 input_tensor=None,
                                                 input_shape=(self.normal_size,self.normal_size,self.channles),
                                                 pooling='max',
-                                                classes=self.classes)
+                                                classNumber=self.classNumber)
         elif choosed_model == 'MobileNet':
             model = keras.applications.MobileNet(include_top=True,
                                                  weights=None,
                                                  input_tensor=None,
                                                  input_shape=(self.normal_size,self.normal_size,self.channles),
                                                  pooling='max',
-                                                 classes=self.classes)
+                                                 classNumber=self.classNumber)
         # elif choosed_model == 'DenseNet':
         #     depth = 40
         #     nb_dense_block = 3
@@ -97,7 +97,7 @@ class Build_model(object):
         #     img_dim = (self.channles, self.normal_size) if K.image_dim_ordering() == "th" else (
         #         self.normal_size, self.normal_size, self.channles)
         #
-        #     model = densenet.DenseNet(img_dim, classes=self.classes, depth=depth, nb_dense_block=nb_dense_block,
+        #     model = densenet.DenseNet(img_dim, classNumber=self.classNumber, depth=depth, nb_dense_block=nb_dense_block,
         #                               growth_rate=growth_rate, nb_filter=nb_filter, dropout_rate=dropout_rate,
         #                               bottleneck=bottleneck, reduction=reduction, weights=None)
 
