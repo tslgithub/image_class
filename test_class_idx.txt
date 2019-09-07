@@ -1,3 +1,2 @@
-class_0
-class_1
-class_2
+dog
+cat
