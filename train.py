@@ -151,13 +151,18 @@ class Train(Build_model):
         self.train(X_train, X_test, y_train, y_test,model)
 
     def remove_logdir(self):
-        if os.name == 'posix':
-            try:
-                print(os.system('ls checkpoints/'+self.model_name+'/'+'events*'))
-                os.system('rm checkpoints/'+self.model_name+'/'+'events*')
-            except:
-                print("GO ON")
+        self.mkdir(self.checkpoints)
+        self.mkdir(os.path.join(self.checkpoints,self.model_name))
+        events = os.listdir(os.path.join(self.checkpoints,self.model_name))
+        for evs in events:
+            if "events" in evs:
+                os.remove(os.path.join(os.path.join(self.checkpoints,self.model_name),evs))
 
+    def mkdir(self,path):
+        if os.path.exists(path):
+            return path
+        os.mkdir(path)
+        return path
 
 
 def main():
