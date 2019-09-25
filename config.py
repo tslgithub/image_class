@@ -14,8 +14,8 @@ class DefaultConfig():
     try:
         model_name = sys.argv[1]
     except:
-        print("use default model VGG16, see config.py")
-        model_name = "VGG16"
+        print("use default model LeNet, see config.py")
+        model_name = "LeNet"
 
     train_data_path = './dataset/train/'
     test_data_path = './dataset/test/'
@@ -26,7 +26,7 @@ class DefaultConfig():
     elif model_name == 'Xception':
         normal_size = 71#minSize
     else:
-        normal_size = 64
+        normal_size = 16
     # normal_size = 48
     epochs = 1
     batch_size = 2
