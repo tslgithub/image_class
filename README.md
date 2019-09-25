@@ -59,18 +59,18 @@ My environment is based on
 * pip3 install opencv-python
 * pip3 install scikit-learn
 
-# 1. confirm config.py
+# 1.confirm config.py
 * choose model and change parameter in config.py
 
-# 2. train or test  dataset prepare
+# 2.train or test  dataset prepare
 * python3 mk_class_idx.py
 
-# 3. train your model
-* train model: python3 train.py modelName
-* or run " __sh trainAll.sh__ " to train all model
-* take VGG16 as example, run " __tensorboard --logdir=/home/tsl/PycharmProjects/image_class/checkpoints/VGG16__ " to watch training with tensorboard
+# 3.train your model
+* __Train sigle model :__  python3 train.py modelName
+* __Train All model :__ run " __sh trainAll.sh__ " to train all model (__in ubuntu__)
+* __Tensorboard :__ take LeNet as example, run " __tensorboard --logdir=./checkpoints/LeNet__ " to watch training with tensorboard
 
-# 4. predict your model
+# 4.predict your model
 * predict model: python3 predict.py modelName classesName
 
 # 5.result of mnist dataset(number 0~9)
