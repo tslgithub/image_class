@@ -78,3 +78,7 @@ My environment is based on
 
 ### Any Questions???
 Author email: mymailwith163@163.com
+
+### Some issue
+I do not provide any  trained model, and  so, you should train your own model,
+if you get error: "__rm: cannot remove 'checkpoints/__ModelName__/events*': No such file or directory__", do not worry, It means you has not trained your model, and just go to enjoy training.
