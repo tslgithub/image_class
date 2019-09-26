@@ -26,7 +26,7 @@ class DefaultConfig():
     elif model_name == 'Xception':
         normal_size = 71#minSize
     else:
-        normal_size = 16
+        normal_size = 64
     # normal_size = 48
     epochs = 1
     batch_size = 2
