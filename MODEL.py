@@ -136,6 +136,7 @@ class MODEL(object):
         input_shape= (self.config.normal_size, self.config.normal_size, self.config.channles)
         model.add(Convolution2D(64,(3,3),input_shape=input_shape,activation='relu',padding='same'))
         model.add(Convolution2D(64,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
         model.add(Convolution2D(128,(3,3),activation='relu',padding='same'))
         model.add(Convolution2D(128,(3,3),activation='relu',padding='same'))
         model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
@@ -152,8 +153,8 @@ class MODEL(object):
         model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
         model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
         model.add(Flatten())
-        model.add(Dense(4096,activation='relu'))
-        model.add(Dense(4096,activation='relu'))
+        model.add(Dense(1024,activation='relu'))
+        # model.add(Dense(4096,activation='relu'))
         model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
 
@@ -162,6 +163,7 @@ class MODEL(object):
         input_shape= (self.config.normal_size, self.config.normal_size, self.config.channles)
         model.add(Convolution2D(64,(3,3),input_shape=input_shape,activation='relu',padding='same'))
         model.add(Convolution2D(64,(3,3),activation='relu',padding='same'))
+        model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
         model.add(Convolution2D(128,(3,3),activation='relu',padding='same'))
         model.add(Convolution2D(128,(3,3),activation='relu',padding='same'))
         model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
@@ -181,8 +183,8 @@ class MODEL(object):
         model.add(Convolution2D(512,(3,3),activation='relu',padding='same'))
         model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
         model.add(Flatten())
-        model.add(Dense(4096,activation='relu'))
-        model.add(Dense(4096,activation='relu'))
+        model.add(Dense(1024,activation='relu'))
+        # model.add(Dense(4096,activation='relu'))
         model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
 
