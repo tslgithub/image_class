@@ -22,11 +22,7 @@ config1 = tf.ConfigProto()
 config1.gpu_options.allow_growth = True
 tf.Session(config=config1)
 
-# from keras.backend.tensorflow_backend import set_session
-# import tensorflow as tf
-# config_yolo = tf.ConfigProto()
-# config_yolo.gpu_options.per_process_gpu_memory_fraction = 0.15
-# set_session(tf.Session(config=config_yolo))
+
 
 import sys
 sys.setrecursionlimit(10000)
@@ -83,7 +79,8 @@ class Train(Build_model):
                 idx = lines.index(label.rstrip())
                 labels_idx.append(idx)
 
-        images_data = np.array(images_data,dtype='float')/255.0
+        # images_data = np.array(images_data,dtype='float')/255.0
+        images_data = np.array(images_data, dtype='float32') / 255.0
         labels = to_categorical(np.array(labels_idx),num_classes=self.classNumber)
         X_train, X_test, y_train, y_test = train_test_split(images_data,labels)
         return X_train, X_test, y_train, y_test
@@ -94,6 +91,10 @@ class Train(Build_model):
         return path
 
     def train(self,X_train, X_test, y_train, y_test,model):
+        print("*"*50)
+        print("-"*20+"train",config.model_name+"-"*20)
+        print("*"*50)
+
         tensorboard=TensorBoard(log_dir=self.mkdir(os.path.join(self.checkpoints,self.model_name) ))
 
         lr_reduce = keras.callbacks.ReduceLROnPlateau(monitor=config.monitor,
@@ -117,7 +118,6 @@ class Train(Build_model):
 
         if self.data_augmentation:
             print("using data augmentation method")
-
             data_aug = ImageDataGenerator(
                 rotation_range=5,  # 图像旋转的角度
                 width_shift_range=0.2,  # 左右平移参数
@@ -136,7 +136,6 @@ class Train(Build_model):
                 callbacks=[early_stop,checkpoint,lr_reduce,tensorboard],
             )
         else:
-            print('\nmodel=\n',model)
             model.fit(x=X_train,y=y_train,
                       batch_size=self.batch_size,
                       validation_data=(X_test,y_test),
