@@ -71,9 +71,11 @@ class MODEL(object):
         # model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
 
         model.add(Flatten())
-        model.add(Dense(4096,activation='relu'))
+        # model.add(Dense(4096,activation='relu'))
+        model.add(Dense(1024,activation='relu'))
         model.add(Dropout(0.5))
-        model.add(Dense(2048, activation='relu'))
+        # model.add(Dense(2048, activation='relu'))
+        model.add(Dense(1024, activation='relu'))
         model.add(Dropout(0.5))
         model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
@@ -101,7 +103,8 @@ class MODEL(object):
             model = self.covn_block(model,kenal_number=512,kenal_size=(3,3),padding='same',activation='relu')
 
         model.add(Flatten())
-        model.add(Dense(4096,activation='relu'))
+        # model.add(Dense(4096,activation='relu'))
+        model.add(Dense(1024,activation='relu'))
         model.add(Dropout(0.5))
         model.add(Dense(1024,activation='relu'))
         model.add(Dropout(0.5))
@@ -123,9 +126,11 @@ class MODEL(object):
         model.add(Convolution2D(256, (3, 3), strides=(1, 1), padding='same', activation='relu', kernel_initializer='uniform'))
         model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
         model.add(Flatten())
-        model.add(Dense(4096, activation='relu'))
+        # model.add(Dense(4096, activation='relu'))
+        model.add(Dense(1024, activation='relu'))
         model.add(Dropout(0.5))
-        model.add(Dense(4096, activation='relu'))
+        # model.add(Dense(4096, activation='relu'))
+        model.add(Dense(1024, activation='relu'))
         model.add(Dropout(0.5))
         model.add(Dense(self.config.classNumber, activation='softmax'))
         # model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
@@ -154,7 +159,7 @@ class MODEL(object):
         model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
         model.add(Flatten())
         model.add(Dense(1024,activation='relu'))
-        # model.add(Dense(4096,activation='relu'))
+        model.add(Dense(1024,activation='relu'))
         model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
 
@@ -184,7 +189,7 @@ class MODEL(object):
         model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
         model.add(Flatten())
         model.add(Dense(1024,activation='relu'))
-        # model.add(Dense(4096,activation='relu'))
+        model.add(Dense(1024,activation='relu'))
         model.add(Dense(self.config.classNumber,activation='softmax'))
         return model
 
