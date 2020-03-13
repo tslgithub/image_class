@@ -56,6 +56,9 @@ class PREDICT(Build_model):
         else:
             print('weights is not exist')
         model.load_weights(os.path.join(os.path.join(self.checkpoints,self.model_name),self.model_name+'.h5'))
+
+
+
         if(self.channles == 3):
             data_list = list(
                 map(lambda x: cv2.resize(cv2.imread(os.path.join(self.test_data_path, x)),
@@ -79,10 +82,15 @@ class PREDICT(Build_model):
                 i+=1
             else:
                 j+=1
-        print('\naccuacy is:%.2f'%((j/ (len(data_list)))*100.0),"%")
+
+        accuracy = (1.0*j/ (1.0*len(data_list)))*100.0
+        print("accuracy:{:.5}%".format(str(accuracy) ))
         print('Done')
-        end = time.time();
+        end = time.time()
         print("usg time:",end - start)
+
+        with open("testLog/accuacy.txt","a") as f:
+            f.write(config.model_name+","+self.className+","+"{:.5}%".format(str(accuracy))+"\n")
 
 def main():
     predict = PREDICT(config)
